@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import joblib
 import os
-import numpy as np
+import pandas as pd
 import csv
 from datetime import datetime
 
@@ -24,7 +24,15 @@ except Exception as e:
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    fake_count = 0
+    real_count = 0
+    # Check if the log file exists and count predictions
+    if os.path.exists(LOG_PATH):
+        df = pd.read_csv(LOG_PATH)
+        fake_count = (df['prediction'] == 'Fake Job').sum()
+        real_count = (df['prediction'] == 'Real Job').sum()
+        
+    return render_template('index.html', fake_count=fake_count, real_count=real_count)
 
 def append_log(job_description: str, prediction: str, confidence):
     header = ['timestamp', 'job_description', 'prediction', 'confidence']

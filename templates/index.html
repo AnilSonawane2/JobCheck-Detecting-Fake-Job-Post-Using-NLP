@@ -24,7 +24,7 @@
 
     body {
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, #071029 0%, #0f172a 100%);
+      background: linear-gradient(180deg, #071029 0%, #071029 100%);
       color: #e6eef6;
       display: flex;
       align-items: flex-start;
@@ -145,6 +145,7 @@
 
     footer .meta {
       color: #9fbfca;
+      margin-bottom: 30px;
     }
 
     .error-box {
@@ -156,6 +157,61 @@
       border: 1px solid rgba(239, 68, 68, 0.16);
       color: #ffd6d6;
     }
+
+    /* Summary Section */
+    .summary {
+      margin-top: 20px;
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.05), rgba(16, 185, 129, 0.05));
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .summary h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #c7f9fb;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 14px 20px;
+      border-radius: 10px;
+      min-width: 130px;
+      transition: transform 0.2s ease;
+    }
+
+    .stat:hover {
+      transform: scale(1.05);
+    }
+
+    .stat strong {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .stat.fake strong {
+      color: var(--danger);
+    }
+
+    .stat.real strong {
+      color: var(--success);
+    }
+
+    .stat span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
 
     @media (max-width: 640px) {
       body {
@@ -199,6 +255,21 @@
       {% endif %}
     </form>
 
+            <!-- Summary Section -->
+    <div class="summary">
+        <h3>📊 Job Detection Summary</h3>
+        <div class="stats">
+            <div class="stat fake">
+                <strong>{{ fake_count }}</strong>
+                <span>Fake Jobs Detected</span>
+            </div>
+            <div class="stat real">
+                <strong>{{ real_count }}</strong>
+                <span>Real Jobs Detected</span>
+            </div>
+        </div>
+    </div>
+
     <div class="tips">
       <h3>Tips to Avoid Fake Jobs</h3>
       <ul>
@@ -208,7 +279,7 @@
         <li>Be cautious of personal email domains (like Gmail/Yahoo) from recruiters.</li>
         <li>Insist on a formal interview process before sharing personal details.</li>
       </ul>
-    </div>
+    </div>   
 
     <footer>
       <div class="meta">Developed by Anil and Team / Fake Job Detector Project</div>
