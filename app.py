@@ -89,7 +89,7 @@ def predict():
         pred_str = str(pred_raw).lower()
         label = "Fake Job" if ('fake' in pred_str or 'fraud' in pred_str) else "Real Job"
 
-    # Append to CSV log (write confidence as string)
+    # Append to CSV log
     try:
         append_log(job_desc, label, confidence)
     except Exception as e:
