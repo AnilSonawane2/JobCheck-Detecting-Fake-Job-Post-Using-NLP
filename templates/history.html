@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction History</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+            background: linear-gradient(180deg, #071029, #0b1220);
+            color: #e6eef6;
+            padding: 24px;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin: 0 0 12px 0;
+            font-size: 22px;
+            color: #cfeffd;
+        }
+
+        .heading {
+            margin-bottom: 30px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: top;
+            color: #cfeefd;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            color: #9be7f6;
+            font-weight: 700;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge.fake {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(239, 68, 68, 0.12);
+            color: #ffb4b4;
+            font-weight: 700;
+        }
+
+        .badge.real {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.08);
+            color: #b7f5d1;
+            font-weight: 700;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 12px;
+            color: #9be7f6;
+            text-decoration: none;
+        }
+
+        .empty {
+            margin-top: 18px;
+            color: #9fbfc8;
+        }
+
+        @media (max-width:760px) {
+
+            th,
+            td {
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1 class="heading">Prediction History</h1>
+        {% if not rows %}
+        <div class="empty">No predictions logged yet.</div>
+        {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Job Description</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td>{{ r.timestamp }}</td>
+                    <td style="max-width:520px; white-space:pre-wrap;">{{ r.job_description }}</td>
+                    <td>
+                        {% if r.prediction == 'Fake Job' %}
+                        <span class="badge fake">{{ r.prediction }}</span>
+                        {% else %}
+                        <span class="badge real">{{ r.prediction }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ r.confidence }}{% if r.confidence != 'N/A' %}%{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <a class="back" href="{{ url_for('home') }}">🔙 Back to Home</a>
+    </div>
+</body>
+
+</html>

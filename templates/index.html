@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fake Job Detection</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #0b1220;
+      --accent: #06b6d4;
+      --muted: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #071029 0%, #0f172a 100%);
+      color: #e6eef6;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .container {
+      width: 900px;
+      max-width: 95%;
+      padding-top: 30px;
+      box-sizing: border-box;
+    }
+
+    header {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.5px;
+    }
+
+    p.lead {
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    form {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+      padding: 28px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding-right: 60px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    textarea {
+      width: 100%;
+      height: 160px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+      color: #e6eef6;
+      resize: vertical;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    button {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--accent), #7dd3fc);
+      color: #052024;
+      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.12);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.16);
+    }
+
+    .error {
+      color: var(--danger);
+      margin-top: 10px;
+    }
+
+    /* Tips section */
+    .tips {
+      margin-top: 18px;
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.02), rgba(6, 182, 212, 0.01));
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .tips h3 {
+      margin: 0 0 8px 0;
+      color: #c7f9fb;
+    }
+
+    .tips ul {
+      text-align: left;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .tips li {
+      margin: 8px 0;
+    }
+
+    footer {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer .meta {
+      color: #9fbfca;
+    }
+
+    .error-box {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.16);
+      color: #ffd6d6;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 18px;
+        display: flex;
+        align-items: start;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1 class="head">🔍 Fake Job Detection</h1>
+      <p class="lead">Paste a job posting below to check whether it looks suspicious.</p>
+    </header>
+
+    <form id="jobForm" action="/predict" method="POST">
+      <label for="job_description"><b>Job Description</b></label>
+      <textarea id="job_description" name="job_description"
+        placeholder="Paste job post text here...">{{ request.form.job_description or '' }}</textarea>
+      <div class="actions">
+        <button type="submit">Check Authenticity</button>
+        <a href="{{ url_for('history') }}" style="text-decoration:none">
+          <button type="button"
+            style="background:transparent; color:#9be7f6; box-shadow:none; border:1px solid rgba(155,231,246,0.12);">View
+            History</button>
+        </a>
+      </div>
+
+      <div id="errorBox" class="error-box" role="alert"></div>
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+    </form>
+
+    <div class="tips">
+      <h3>Tips to Avoid Fake Jobs</h3>
+      <ul>
+        <li>Never pay money or share bank details for “training” or “processing” fees.</li>
+        <li>Look for unrealistic pay, vague job roles, and grammatical errors.</li>
+        <li>Verify the company website and job posting on their official page or LinkedIn.</li>
+        <li>Be cautious of personal email domains (like Gmail/Yahoo) from recruiters.</li>
+        <li>Insist on a formal interview process before sharing personal details.</li>
+      </ul>
+    </div>
+
+    <footer>
+      <div class="meta">Developed by Anil and Team / Fake Job Detector Project</div>
+    </footer>
+  </div>
+  <script>
+    (function () {
+      const form = document.getElementById('jobForm');
+      const ta = document.getElementById('job_description');
+      const errBox = document.getElementById('errorBox');
+
+      // Validation with specific messages for numeric-only and symbol-only
+      function validateInput(text) {
+        if (!text || !text.trim()) {
+          return { ok: false, type: 'empty', msg: 'Please enter a job description.' };
+        }
+        const trimmed = text.trim();
+        const hasLetters = /[A-Za-z]/.test(trimmed);
+        const hasDigits = /[0-9]/.test(trimmed);
+        const alnum = /[A-Za-z0-9]/.test(trimmed);
+        const hasSymbolsOnly = !alnum && /\S/.test(trimmed);
+        if (!hasLetters) {
+          if (hasDigits && !hasSymbolsOnly) {
+            return { ok: false, type: 'numeric', msg: 'Input appears to be numeric-only. Please include words describing the job.' };
+          }
+          if (hasSymbolsOnly) {
+            return { ok: false, type: 'symbols', msg: 'Input appears to contain only symbols. Please enter a valid job description.' };
+          }
+          return { ok: false, type: 'no_letters', msg: 'Please enter a valid job description (letters and words required).' };
+        }
+        if (trimmed.length < 20) {
+          return { ok: false, type: 'short', msg: 'Job description too short. Please give more details.' };
+        }
+        return { ok: true };
+      }
+
+      // form submission handler
+      form.addEventListener('submit', function (ev) {
+        const value = ta.value || '';
+        const v = validateInput(value);
+
+        if (!v.ok) {
+          ev.preventDefault();
+          // show styled error box
+          errBox.style.display = 'block';
+          errBox.textContent = v.msg;
+          // also show alert for visibility
+          alert(v.msg);
+          return false;
+        }
+
+        // valid — allow submit
+        return true;
+      });
+
+      // hide error box when user types
+      ta.addEventListener('input', function () {
+        if (errBox.style.display !== 'none') {
+          errBox.style.display = 'none';
+          errBox.textContent = '';
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

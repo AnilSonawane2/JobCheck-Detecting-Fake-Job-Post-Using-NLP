@@ -1,0 +1,3 @@
+venv
+tfidf_vectorizer.pkl
+fake_job_model.pkl
