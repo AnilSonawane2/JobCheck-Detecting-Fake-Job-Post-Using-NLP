@@ -2,3 +2,5 @@ timestamp,job_description,prediction,confidence
 2025-11-13 19:05:02,"Work from home, earn $5000 weekly. No experience needed. Pay after training — send your bank account to receive funds.",Fake Job,82.54
 2025-11-13 21:04:50,Four years work experience as a technician with increasing responsibility in a related industry may be substituted for the above requirement.-Experience in working with voltages up to 4160 volts highly ,Real Job,79.89
 2025-11-13 21:10:25,"A Newly established company seeks outgoing, friendly people person with a can do attitude for a Admin Assistant/ Receptionist position yet to be occupiedJob duties include answering phones, setting appts and working with the owner to keep the office running smooth. Processing of tax returns, keeping database current and scanning of all tax documents.",Fake Job,84.04
+2025-11-14 19:26:00,"We are hiring a Software Engineer. Requirements: 3+ years experience in Python, degree in CS. Please send resume and links to GitHub.",Real Job,63.79
+2025-11-14 19:29:05,"We are hiring a Software Engineer. Requirements: 3+ years experience in Python, degree in CS. Please send resume and links to GitHub.",Real Job,63.79

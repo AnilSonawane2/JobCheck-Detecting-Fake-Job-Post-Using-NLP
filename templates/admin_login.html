@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Login</title>
+    <style>
+        body {
+            background: linear-gradient(180deg, #071029 0%, #071029 100%);
+            font-family: Arial;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .login-box {
+            background: linear-gradient(180deg, rgba(197, 229, 235, 0.08), rgba(215, 235, 228, 0.10));
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 30px;
+            width: 30%;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.02);
+            color: #e6eef6;
+            padding: 10px;
+            width: 80%;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1dd4de;
+            border: none;
+            color: black;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            box-shadow: 0 0 5px #1dd4de,
+              0 0 5px #1dd4de,
+              0 0 5px #1dd4de;
+        }
+
+        .error {
+            color: red;
+        }
+        .heading{
+            color: #cfeffd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 class="heading">Admin Login</h2>
+    <div class="login-box">
+        <form method="POST">
+            <input type="text" name="username" placeholder="Enter username"><br>
+            <input type="password" name="password" placeholder="Enter password"><br>
+            <button type="submit">Login</button>
+        </form>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

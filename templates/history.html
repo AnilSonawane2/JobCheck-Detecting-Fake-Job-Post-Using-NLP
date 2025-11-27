@@ -103,7 +103,7 @@
 <body>
     <div class="wrap">
         <h1 class="heading">Prediction History</h1>
-        {% if not rows %}
+        {% if not records %}
         <div class="empty">No predictions logged yet.</div>
         {% else %}
         <table>
@@ -116,18 +116,18 @@
                 </tr>
             </thead>
             <tbody>
-                {% for r in rows %}
+                {% for job, label, conf, time in records %}
                 <tr>
-                    <td>{{ r.timestamp }}</td>
-                    <td style="max-width:520px; white-space:pre-wrap;">{{ r.job_description }}</td>
+                    <td>{{ time }}</td>
+                    <td style="max-width:520px; white-space:pre-wrap;">{{ job[:100] }}</td>
                     <td>
-                        {% if r.prediction == 'Fake Job' %}
-                        <span class="badge fake">{{ r.prediction }}</span>
+                        {% if label == 'Fake Job' %}
+                        <span class="badge fake">{{ label }}</span>
                         {% else %}
-                        <span class="badge real">{{ r.prediction }}</span>
+                        <span class="badge real">{{ label }}</span>
                         {% endif %}
                     </td>
-                    <td>{{ r.confidence }}{% if r.confidence != 'N/A' %}%{% endif %}</td>
+                    <td>{{ conf }}{% if conf != 'N/A' %}%{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>

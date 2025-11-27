@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: linear-gradient(180deg, #071029 0%, #071029 100%);
+            padding: 40px;
+        }
+
+        .box {
+            background: linear-gradient(180deg, rgba(197, 229, 235, 0.15), rgba(215, 235, 228, 0.15));
+            color: #1dd4de;
+            padding: 20px;
+            width: 40%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            margin: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .heading {
+            color: cyan;
+            margin-bottom: 30px;
+        }
+
+        .anchore {
+            text-decoration: none;
+            color: #1dde94;
+        }
+
+        .anchore2 {
+            text-decoration: none;
+            color: rgb(190, 58, 58);
+        }
+        .container{
+            display: flex;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="heading">Admin Dashboard</h1>
+    <div class="container">
+        <div style="width: 18%; margin: auto;">
+            <canvas id="pieChart" width="200" height="200"></canvas>
+        </div>
+    <br><br>
+        <div style="width: 30%; margin: auto; margin-bottom: 20px;">
+            <canvas id="lineChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    
+    <div class="box">
+        <h3>Total Predictions: {{ total }}</h3>
+        <h3>Fake Jobs Detected: {{ fake }}</h3>
+        <h3>Real Jobs Detected: {{ real }}</h3>
+
+        <a class="anchore" href="/history">📄 View Prediction History</a>
+        <a class="anchore2" href="/logout">🚪 Logout</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+<script>
+    // ---------------- PIE CHART ----------------
+    const pieCtx = document.getElementById('pieChart');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Fake Jobs', 'Real Jobs'],
+            datasets: [{
+                data: [{{ fake }}, {{ real }}],
+                backgroundColor: ['#e74c3c', '#2ecc71']
+            }]
+        }
+    });
+
+    // ---------------- LINE CHART ----------------
+    const lineCtx = document.getElementById('lineChart');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: {{ dates | safe }},
+            datasets: [{
+                label: 'Predictions Per Day',
+                data: {{ counts | safe }},
+                borderWidth: 2,
+                borderColor: '#3498db',
+                fill: false
+            }]
+        }
+    });
+</script>
+</html>
